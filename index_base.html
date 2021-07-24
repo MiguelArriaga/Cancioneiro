@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--    <meta charset="UTF-8";>-->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!--    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=yes" />-->
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="css/basic_style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="css/autocomplete.css" rel="stylesheet" />
+    <script src="scripts/variables.js"></script>
+    <script src="scripts/find_song.js"></script>
+    <script src="scripts/autocomplete.js"></script>
+
+    <title>Cancioneiro</title>
+</head>
+<body>
+
+<div class="topnav"  id="myTopnav">
+  <a class="active" href="index.html#home"><i class="fas fa-home"></i></a>
+  <a href="MakeSongSheet.html"><i class="fas fa-file"></i></a>
+  <a href="index.html#indice">Índice</a>
+  <div class="search-container">
+      <input id="SearchSongInput" type="text" name="myCountry" placeholder="Search..." size="15"
+             onClick="this.setSelectionRange(0, this.value.length)">
+      <button type="button" id=findsongbtn onclick="findSong();"><i class="fa fa-search"></i></button>
+  </div>
+
+
+</div>
+
+<div class="content" id="home">
+
+<h2>Todas as Músicas</h2>
+##BODY##
+
+
+<a id="indice">
+<h2>Índice</h2>
+##SONG_INDEX##
+
+</div>
+
+<script>
+autocomplete("SearchSongInput", songs_dict_nice_id,true);
+</script>
+
+
+##DATE##
+
+</body>
+</html>

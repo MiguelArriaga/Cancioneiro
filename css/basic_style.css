@@ -1,0 +1,193 @@
+
+:root {
+  --text_font_size: 16px;
+}
+
+* {
+   font-size: var(--text_font_size);
+   /*font-family: "Times New Roman", Times, serif;*/
+   font-family: Helvetica, Arial, Sans-Serif;
+}
+
+
+.outer {
+  max-width: 40em;
+}
+
+.inner {
+  margin-left: 20px;
+  background-color: #eee;
+  padding: 5px;
+}
+
+
+table {
+  border-collapse: collapse;
+  max-width: 40em;
+}
+
+.songsheet {
+    border: 1px solid #ddd;
+}
+
+th {
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+}
+
+td{
+  text-align: left;
+  /*border: 1px solid #ddd;*/
+  padding: 5px 10px 5px 10px;
+}
+
+
+h2 {
+    font-size: calc(2*var(--text_font_size));
+}
+
+
+p.pre_title {
+    font-size: calc(1.6*var(--text_font_size));
+    font-style: italic;
+    font-weight: regular;
+    margin-bottom:0 ;
+}
+p.title {
+    font-size: calc(1.6*var(--text_font_size));
+    font-weight: bold;
+    margin:0 ;
+}
+
+p.artist {
+    font-size: calc(0.80*var(--text_font_size));
+    font-style: italic;
+    margin:0 ;
+}
+
+p.capo {
+    font-size: calc(0.75*var(--text_font_size));
+    margin:0 ;
+}
+
+
+p.chorus {
+    font-style: italic;
+}
+
+p.verse {
+
+}
+
+p.translation {
+    background-color:rgba(201,201,201,0.3);
+    font-size: calc(0.75*var(--text_font_size));
+    max-width: 30em;
+}
+
+
+p.chorus span {
+    display: none;
+}
+
+p.verse span {
+    display: none;
+}
+
+
+[chord]::after {
+  content: attr(chord);
+}
+
+p.show-chords span {
+  position: relative;
+  top: calc(-0.5*var(--text_font_size));
+  display:inline-block;
+  width: 0;
+  overflow:visible;
+  line-height: calc(var(--text_font_size) + 1.1em);
+  vertical-align: bottom;
+  font-weight: bold;
+  white-space:nowrap;
+  font-size: calc(0.75*var(--text_font_size));
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+
+/* NAV BAR */
+
+.content {
+    padding-top: 3em;
+}
+
+.content a::before {
+  display: block;
+  content: " ";
+  margin-top: -3.5em;
+  height: 3.5em;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.topnav {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  background-color: #e9e9e9;
+  display:inline-block;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+.topnav .search-container {
+  float: right;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.topnav .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}

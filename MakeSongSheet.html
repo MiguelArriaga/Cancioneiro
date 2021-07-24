@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Make Song Sheet</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!--    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=yes" />-->
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="css/basic_style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="css/autocomplete.css" rel="stylesheet" />
+<!-- -->
+  <script src="scripts/jquery-1.11.0.min.js"></script>
+  <script src="scripts/makeSheet.js"></script>
+  <script src="scripts/variables.js"></script>
+  <script src="scripts/autocomplete.js"></script>
+</head>
+<body onload="loadGenSongSheetPage();">
+
+<div class="topnav"  id="myTopnav">
+  <a class="active" href="index.html"><i class="fas fa-home"></i></a>
+  <a href="MakeSongSheet.html"><i class="fas fa-file"></i></a>
+</div>
+
+<div class="content" id="home">
+
+<h2>Create Song Sheet</h2>
+<button type="button" id="genStdMass"  onclick="generateStandardMass();">Generate Blank Mass</button>
+<br><br><br>
+<table id="songTable" class="songsheet">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Section</th>
+      <th>Song</th>
+      <th></th>
+    </tr>
+  </thead>
+</table>
+
+<br>
+<br>
+<div class="outer">
+  <div class="inner">
+    <b>Add Row:</b>
+    <br>
+    <table id="addRow">
+        <tr>
+          <td><label for="SongSection"> Section </label></td>
+          <td><input id="SongSection" type="text" placeholder="(e.g. Entrada)" size="25"/></td>
+        </tr>
+        <tr>
+          <td><label for="SearchSongInput"> Song </label><br></td>
+          <td><input id="SearchSongInput" type="text"
+                     name="myCountry" placeholder="Song"
+                     size="25" onClick="this.setSelectionRange(0, this.value.length)"/></td>
+        </tr>
+    </table>
+    <button type="button" id="updateButton"  onclick="songUpdate();">Add</button>
+  </div>
+</div>
+
+<br>
+<button type="button" id="generateButton"  onclick="generateSongSheet();">Generate Song Sheet</button>
+
+</div>
+
+<script>
+autocomplete("SearchSongInput", songs_dict_nice_id);
+</script>
+
+</body>
+</html>

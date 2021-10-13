@@ -8,7 +8,7 @@ function addAutoComplete(jq_item, source) {
     })
     jq_item.autocomplete( "option", "position", { my : "right top", at: "right bottom" } );
     jq_item.autocomplete("instance")._renderItem = renderfunc;
-    return ac_object
+
 }
 
 

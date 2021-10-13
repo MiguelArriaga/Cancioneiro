@@ -1,12 +1,13 @@
 
 function addAutoComplete(jq_item, source) {
     // jq_item = $('#songTable > tbody > tr:last').children('td').eq(2);
-    var ac_object = jq_item.autocomplete({
+    jq_item.autocomplete({
         source: autoCompleteCallbackFactory(source),
         delay: 5,
         minLength: 2
-    }).autocomplete("instance")
-    ac_object._renderItem = renderfunc;
+    })
+    jq_item.autocomplete( "option", "position", { my : "right top", at: "right bottom" } );
+    jq_item.autocomplete("instance")._renderItem = renderfunc;
     return ac_object
 }
 

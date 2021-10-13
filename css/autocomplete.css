@@ -1,29 +1,7 @@
 
-.autocomplete-items {
-  border: 1px solid #d4d4d4;
-  border-bottom: none;
-  border-top: none;
-  width: 200px;
-  margin: auto;
-}
-
-.autocomplete-items div {
-  display: block;
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
-}
-
-/*when hovering an item:*/
-.autocomplete-items div:hover {
-  background-color: #e9e9e9;
-}
-
-/*when navigating through the items using the arrow keys:*/
-.autocomplete-active {
-  background-color: DodgerBlue !important;
-  color: #ffffff;
-  width: "50px";
-  margin: auto;
+.ui-autocomplete {
+  max-height: 250px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
 }

@@ -5,12 +5,22 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <!--    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=yes" />-->
     <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="css/basic_style.css" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="css/autocomplete.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/basic_style.css" />
+    <link rel="stylesheet" href="css/autocomplete.css" />
+    <!-- -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
     <script src="scripts/variables.js"></script>
+    <script src="scripts/jq_autocomplete.js"></script>
+
     <script src="scripts/find_song.js"></script>
-    <script src="scripts/autocomplete.js"></script>
 
     <title>Cancioneiro</title>
 </head>
@@ -23,7 +33,7 @@
   <div class="search-container">
       <input id="SearchSongInput" type="text" name="myCountry" placeholder="Search..." size="15"
              onClick="this.setSelectionRange(0, this.value.length)">
-      <button type="button" id=findsongbtn onclick="findSong();"><i class="fa fa-search"></i></button>
+      <button type="button" id=findsongbtn onclick="findSong($('#SearchSongInput')[0].value);"><i class="fa fa-search"></i></button>
   </div>
 
 
@@ -14362,11 +14372,14 @@ nossa Mãe adorada, a mais fiel que jamais existiu.
 </div>
 
 <script>
-autocomplete("SearchSongInput", songs_dict_nice_id,true);
+addAutoComplete($('#SearchSongInput'),Object.keys(songs_dict_nice_id).sort());
+$('#SearchSongInput').autocomplete( "option", "position", { my : "right top", at: "right bottom" } );
+$('#SearchSongInput').on( "autocompleteselect", function( event, ui ) {console.log(findSong(ui.item["value"]))} );
+
 </script>
 
 
-<!-- Created on 27/07/2021 - 21:05:30-->
+<!-- Created on 13/10/2021 - 01:07:47-->
 
 </body>
 </html>

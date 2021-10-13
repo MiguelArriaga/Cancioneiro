@@ -1,45 +1,122 @@
 
-// Next id for adding a new Song
-var nextId = 1;
-// ID of Song currently editing
-var activeId = 0;
+const $songTable = $('#songTable');
+const newTr = `
+    <tr>
+    <td class="text-center pt-3-half px-0">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-sm btn-primary px-2" onclick='moveSongUp(this);'>
+          <i class="fas fa-arrow-up fa-lg" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="btn btn-sm btn-primary px-2" onclick='moveSongDown(this);'>
+          <i class="fas fa-arrow-down fa-lg" aria-hidden="true"></i>
+        </button>
+      </div>
+    </td>
+    <td class="text-center pt-3-half" contenteditable="true">[empty]</td>
+    <td class="text-center pt-3-half" contenteditable="true" onClick="selectCell(this);"></td>
+    <td class="text-center pt-3-half px-0 ">
+        <button type="button" class="btn btn-rounded btn-danger btn-sm px-2" onclick='songDelete(this);'>
+          <i class='fas fa-trash-alt fa-lg' aria-hidden="true"></i>
+        </button>
+    </td>
+    </tr>
+    `;
 
+//    <td class="text-center pt-3-half">
+//        <input type="search" class="form-control">
+//    </td>
 
 function loadGenSongSheetPage() {
-    // First check if a <tbody> tag exists, add one if not
-    if ($("#songTable tbody").length == 0) {
-      $("#songTable").append("<tbody></tbody>");
-    }
+  // First check if a <tbody> tag exists, add one if not
+  if ($("#songTable tbody").length == 0) {
+    $("#songTable").append("<tbody></tbody>");
+  }
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
 
-    for (const [key, value] of urlParams) {
-        if (key[0] != "_" && key != 'undefined') {
-            var song_name = songs_dict_id_nice[key];
-            var mass_part = decodeURI(value);
-            $("#songTable tbody").append(songManualRow(nextId,mass_part,song_name));
-            nextId += 1;
-        }
+  for (const [key, value] of urlParams) {
+    if (key[0] != "_") {
+      var song_name = songs_dict_id_nice[key] || "";
+      var mass_part = decodeURI(value) || "";
+
+      addRow(mass_part, song_name)
     }
+  }
 }
 
 function generateSongSheet() {
-    var table = document.getElementById("songTable");
-    var argslist = []
-    var mp = ""
-    var sg = ""
-    for (var i = 1, row; row = table.rows[i]; i++) {
-        mp = encodeURI(row.cells[1].innerHTML)
-        sg = encodeURI(songs_dict_nice_id[row.cells[2].innerHTML])
-        argslist.push(sg+"="+mp)
-    }
-    window.location.href = "Folha.html?"+argslist.join("&");
+  var table = document.getElementById("songTable");
+  var argslist = []
+  var mp = ""
+  var sg = ""
+  rows = $('#songTable > tbody > tr')
 
-//    var linkToSheet = document.getElementById("linkToSheet");
-//    linkToSheet.setAttribute("href", "Folha.html?"+argslist.join("&"));
-//    linkToSheet.innerHTML = "Link to Sheet";
+  for (let i = 0; i < rows.length; i++) {
+    [mp, sg_nice] = getRowData(rows.eq(i))
+    sg = songs_dict_nice_id[sg_nice]
+    argslist.push(sg + "=" + mp)
+  }
+  window.location.href = "Folha.html?" + argslist.join("&");
+}
 
+function saveSongSheet() {
+  var table = document.getElementById("songTable");
+  var argslist = []
+  var mp = ""
+  var sg = ""
+  rows = $('#songTable > tbody > tr')
+
+  for (let i = 0; i < rows.length; i++) {
+    [mp, sg] = getRowData(rows.eq(i))
+    argslist.push(sg + "=" + mp)
+  }
+  window.location.href = "MakeSongSheet.html?" + argslist.join("&");
+}
+
+
+
+function getRowData(row) {
+  let row_cells = row.children('td')
+  let section = row_cells.eq(1).text()
+  let song = row_cells.eq(2).text()
+  //  let song = row_cells.eq(2).children("input").val()
+  return [section, song]
+}
+
+function setRowData(row, section = null, song = null) {
+  let row_cells = row.children('td')
+  if (section !== null) { row_cells.eq(1).text(section) }
+  if (song !== null) { row_cells.eq(2).text(song) }
+  //  if (song !== null) { row_cells.eq(2).children("input").val(song) }
+}
+
+function addRow(section = "", song = "") {
+  $('#songTable > tbody').append(newTr);
+  let last_row = $('#songTable > tbody > tr:last')
+  setRowData(last_row, section, song)
+  addAutoComplete(last_row.children('td').eq(2),Object.keys(songs_dict_nice_id).sort());
+  // last_row.children('td').eq(2).autocomplete({ source: testcallback, delay: 5, minLength: 2 }).autocomplete("instance")._renderItem = renderfunc;
+  // last_row.children('td').eq(2).autocomplete({ source: Object.keys(songs_dict_nice_id).sort() , delay: 5, minLength: 2});
+  //  last_row.children('td').eq(2).children("input").autocomplete({ source: Object.keys(songs_dict_nice_id).sort() });
+}
+
+
+function songDelete(ctl) {
+  // $(ctl).parents("tr").remove();
+  $(ctl).parents('tr').detach();
+}
+
+function moveSongUp(ctl) {
+  const $row = $(ctl).parents('tr');
+  if ($row.index() === 0) {
+    return;
+  } $row.prev().before($row.get(0));
+}
+
+function moveSongDown(ctl) {
+  const $row = $(ctl).parents('tr');
+  $row.next().after($row.get(0));
 }
 
 function generateStandardMass() {
@@ -48,115 +125,18 @@ function generateStandardMass() {
     $("#songTable").append("<tbody></tbody>");
   }
 
-  // Append song to table
-  $("#songTable tbody").append(songManualRow(0,"Entrada",""));
-  $("#songTable tbody").append(songManualRow(1,"Kyrie",""));
-  $("#songTable tbody").append(songManualRow(2,"Glória",""));
-  $("#songTable tbody").append(songManualRow(3,"Salmo",""));
-  $("#songTable tbody").append(songManualRow(4,"Alleluia",""));
-  $("#songTable tbody").append(songManualRow(5,"Ofertório",""));
-  $("#songTable tbody").append(songManualRow(6,"Sanctus",""));
-  $("#songTable tbody").append(songManualRow(7,"Agnus Dei",""));
-  $("#songTable tbody").append(songManualRow(8,"Comunhão",""));
-  $("#songTable tbody").append(songManualRow(9,"Comunhão",""));
-  $("#songTable tbody").append(songManualRow(10,"Acção de Graças",""));
-  $("#songTable tbody").append(songManualRow(11,"Saída",""));
-
-  // Increment next ID to use
-  nextId = 12;
+  // Append songs to table
+  addRow("Entrada");
+  addRow("Kyrie");
+  addRow("Glória");
+  addRow("Salmo");
+  addRow("Alleluia");
+  addRow("Ofertório");
+  addRow("Sanctus");
+  addRow("Agnus Dei");
+  addRow("Comunhão");
+  addRow("Comunhão");
+  addRow("Acção de Graças");
+  addRow("Saída");
 
 }
-function songManualRow(id,section,song) {
-  var ret =
-  "<tr>" +
-    "<td>" +
-      "<button type='button' onclick='songDisplay(this);' data-id='"+id+"'><i class='fas fa-edit'></i></button>" +
-    "</td>" +
-    "<td>" + section + "</td>" +
-    "<td>" + song + "</td>" +
-    "<td>" +
-      "<button type='button' onclick='songDelete(this);' data-id='"+id+"'><i class='far fa-trash-alt'></i></button>" +
-    "</td>" +
-  "</tr>"
-  return ret;
-}
-
-
-
-function songDisplay(ctl) {
-  var row = $(ctl).parents("tr");
-  var cols = row.children("td");
-
-  activeId = $($(cols[0]).children("button")[0]).data("id");
-  $("#SongSection").val($(cols[1]).text());
-  $("#SearchSongInput").val($(cols[2]).text());
-
-  // Change Update Button Text
-  $("#updateButton").text("Update");
-}
-
-function songUpdate() {
-  if ($("#updateButton").text() == "Update") {
-    songUpdateInTable(activeId);
-  }
-  else {
-    songAddToTable();
-  }
-
-  // Clear form fields
-  formClear();
-
-  // Focus to song name field
-  $("#SearchSongInput").focus();
-}
-
-// Add song to <table>
-function songAddToTable() {
-  // First check if a <tbody> tag exists, add one if not
-  if ($("#songTable tbody").length == 0) {
-    $("#songTable").append("<tbody></tbody>");
-  }
-
-  // Append song to table
-  $("#songTable tbody").append(
-    songBuildTableRow(nextId));
-
-  // Increment next ID to use
-  nextId += 1;
-}
-
-// Update song in <table>
-function songUpdateInTable(id) {
-  // Find Song in <table>
-  var row = $("#songTable button[data-id='" + id + "']")
-            .parents("tr")[0];
-
-  // Add changed song to table
-  $(row).after(songBuildTableRow(id));
-  // Remove original song
-  $(row).remove();
-
-  // Clear form fields
-  formClear();
-
-  // Change Update Button Text
-  $("#updateButton").text("Add");
-}
-
-// Build a <table> row of Song data
-function songBuildTableRow(id) {
-  var ret = songManualRow(id,$("#SongSection").val(),$("#SearchSongInput").val())
-  return ret;
-}
-
-// Delete song from <table>
-function songDelete(ctl) {
-  $(ctl).parents("tr").remove();
-}
-
-    // Clear form fields
-    function formClear() {
-      $("#SearchSongInput").val("");
-      $("#SongSection").val("");
-      $("#url").val("");
-    }

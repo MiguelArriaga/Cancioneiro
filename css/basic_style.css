@@ -123,12 +123,18 @@ p.show-chords span {
     padding-left: 0.5em;
 }
 
+a.pdfLink {
+  color: black;
+}
+
+/* NAV BAR */
+
 .content {
     padding-top: 3.5em;
     padding-left: 0.5em;
 }
 
-.content a::before {
+.content div.linkTopNav::before {
   display: block;
   content: " ";
   margin-top: -3.5em;
@@ -136,8 +142,6 @@ p.show-chords span {
   visibility: hidden;
   pointer-events: none;
 }
-
-/* NAV BAR */
 
 .topnav {
   overflow: hidden;

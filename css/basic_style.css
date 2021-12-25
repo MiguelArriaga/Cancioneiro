@@ -101,15 +101,15 @@ p.verse span {
 
 p.show-chords span {
   position: relative;
-  top: calc(-0.5*var(--text_font_size));
+  top: calc(-0.6*var(--text_font_size));
   display:inline-block;
   width: 0;
   overflow:visible;
-  line-height: calc(var(--text_font_size) + 1.1em);
+  line-height: calc(1.8*var(--text_font_size));
   vertical-align: bottom;
   font-weight: bold;
   white-space:nowrap;
-  font-size: calc(0.75*var(--text_font_size));
+  font-size: calc(0.7*var(--text_font_size));
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -119,11 +119,13 @@ p.show-chords span {
 }
 
 
-
-/* NAV BAR */
+.songsSection {
+    padding-left: 0.5em;
+}
 
 .content {
-    padding-top: 3em;
+    padding-top: 3.5em;
+    padding-left: 0.5em;
 }
 
 .content a::before {
@@ -134,6 +136,8 @@ p.show-chords span {
   visibility: hidden;
   pointer-events: none;
 }
+
+/* NAV BAR */
 
 .topnav {
   overflow: hidden;

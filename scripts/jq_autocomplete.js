@@ -38,7 +38,8 @@ function norm_str(mystring) {
     var normalized = ""
 
     try {
-        normalized = mystring.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+        // normalized = mystring.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+        normalized = mystring.toUpperCase().normalize("NFD").replace(/([\p{Diacritic}]|[^0-9a-zA-Z])/gu, "")
     } catch (error) {
         normalized = mystring.toUpperCase()
     }

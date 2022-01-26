@@ -34,14 +34,17 @@ function renderfunc(ul, item) {
 };
 
 
-function norm_str(mystring) {
-    var normalized = ""
+function norm_str(mystring, strong=false) {
+    var s = mystring.toUpperCase()
 
     try {
-        // normalized = mystring.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
-        normalized = mystring.toUpperCase().normalize("NFD").replace(/([\p{Diacritic}]|[^0-9a-zA-Z])/gu, "")
+        if (strong) {
+        normalized = s.replace("<I>", "").replace("</I>", "").normalize("NFD").replace(/([\p{Diacritic}]|[^0-9a-zA-Z ])/gu, "")
+        } else {
+        normalized = s.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+        }
     } catch (error) {
-        normalized = mystring.toUpperCase()
+        normalized = s
     }
 
     return normalized
@@ -64,9 +67,9 @@ function get_item(song, val) {
 }
 
 function isValidSong(songStr, testStr) {
-    var nsong = norm_str(songStr.toUpperCase().replace("<I>", "").replace("</I>", ""))
+    var nsong = norm_str(songStr,true)
     var songsarr = nsong.split(" ")
-    var ts = norm_str(testStr)
+    var ts = norm_str(testStr,true)
     var t_firstword = ts.split(" ")[0]
 
     if ((nsong.includes(ts)) && (songsarr.some(x => x.startsWith(t_firstword)))) {

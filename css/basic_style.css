@@ -125,6 +125,7 @@ p.show-chords span {
 
 a.pdfLink {
   color: black;
+  clear: both;
 }
 
 /* NAV BAR */
